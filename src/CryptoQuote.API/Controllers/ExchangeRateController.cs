@@ -9,11 +9,16 @@ namespace CryptoQuote.API.Controllers
     [Route("[controller]")]
     public class ExchangeRateController : ControllerBase
     {
+        private readonly Serilog.ILogger logger;
         private readonly ICryptoQuoteService cryptoQuoteService;
         private readonly ApiSettings settings;
 
-        public ExchangeRateController(ICryptoQuoteService cryptoQuoteService, ApiSettings settings)
+        public ExchangeRateController(
+            Serilog.ILogger logger,
+            ICryptoQuoteService cryptoQuoteService,
+            ApiSettings settings)
         {
+            this.logger = logger;
             this.cryptoQuoteService = cryptoQuoteService;
             this.settings = settings;
         }
@@ -21,7 +26,12 @@ namespace CryptoQuote.API.Controllers
         [HttpGet]
         public async Task<IEnumerable<ExchangeRate>> Get()
         {
+            logger.Information("Getting Exchange Rates ...");
+
             var rates = await cryptoQuoteService.GetAllCurrenciesRate(settings.Currencies);
+
+            logger.Information("Exchange Rates are {@exchangeRates}", rates);
+
             return rates;
         }
     }

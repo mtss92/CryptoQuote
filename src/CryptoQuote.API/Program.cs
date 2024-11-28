@@ -5,6 +5,7 @@ using CryptoQuote.Infra.CurrencyServices;
 using CryptoQuote.Infra.HttpServices;
 using CryptoQuote.Infra.Models;
 using Microsoft.Extensions.DependencyInjection.Extensions;
+using Serilog;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -39,6 +40,17 @@ builder.Services.AddScoped<ICurrencyRateService, ExchangeRatesApiService>();
 builder.Services.AddScoped<IHttpService, HttpClientService>();
 builder.Services.AddHttpClient();
 
+Log.Logger = new LoggerConfiguration()
+                .ReadFrom.Configuration(builder.Configuration)
+                .Enrich.FromLogContext()
+                .Enrich.WithMachineName()
+                .Enrich.WithEnvironmentName()
+                .Enrich.FromLogContext()
+                .WriteTo.Console()
+                .WriteTo.Seq(builder.Configuration["Seq:Url"])
+                .CreateLogger();
+builder.Host.UseSerilog(Log.Logger);
+
 builder.Services.AddCors(options =>
 {
     options.AddPolicy("AllowAnyOrigin",
@@ -50,6 +62,7 @@ builder.Services.AddCors(options =>
         });
 });
 
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -60,6 +73,8 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseAuthorization();
+
+app.UseSerilogRequestLogging();
 
 app.MapControllers();
 

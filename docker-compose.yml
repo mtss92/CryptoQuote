@@ -9,5 +9,25 @@ services:
       - "7080:80"
     environment:
       - ASPNETCORE_ENVIRONMENT=Production
+      - Seq__Url=http://seq:5341/
       - ExchangeRatesApi__Token=${ExchangeRatesApi__Token}
       - CoinMarketCapApi__Token=${CoinMarketCapApi__Token}
+    restart: unless-stopped
+    depends_on:
+      seq:
+        condition: service_started
+
+  seq:
+    image: datalust/seq
+    restart: unless-stopped
+    ports:
+      - 8020:80
+      - 5341:5341
+    environment:
+      - ACCEPT_EULA=Y
+    volumes:
+      - seqdata:/data
+
+volumes:
+  seqdata:
+    driver: local
