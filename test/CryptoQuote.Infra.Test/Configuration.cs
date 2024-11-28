@@ -23,5 +23,14 @@ namespace CryptoQuote.Infra.Test
 
             return settingsRoot;
         }
+
+        public static CoinMarketCapApiSettings GetCoinMarketCapApiSettings(this IConfigurationRoot config)
+        {
+            var settingsRoot = new CoinMarketCapApiSettings();
+
+            config.GetSection("CoinMarketCapApi").Bind(settingsRoot);
+
+            return settingsRoot;
+        }
     }
 }

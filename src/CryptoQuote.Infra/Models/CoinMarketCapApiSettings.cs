@@ -6,10 +6,9 @@ using System.Threading.Tasks;
 
 namespace CryptoQuote.Infra.Models
 {
-    public class ExchangeRatesApiSettings
+    public class CoinMarketCapApiSettings
     {
         public string BaseUrl { get; set; } = null!;
         public string Token { get; set; } = null!;
     }
-    
 }

@@ -1,4 +1,5 @@
-﻿using CryptoQuote.Domain.Contracts;
+﻿using CryptoQuote.Domain.Business;
+using CryptoQuote.Domain.Contracts;
 using CryptoQuote.Domain.Models;
 using System;
 using System.Collections.Generic;
@@ -12,10 +13,40 @@ namespace CryptoQuote.Domain.Services
     public class CryptoQuoteService : ICryptoQuoteService
     {
         private readonly ICurrencyRateService currencyRateService;
+        private readonly ICryptoMarketService cryptoMarketService;
 
-        public CryptoQuoteService(ICurrencyRateService currencyRateService)
+        public CryptoQuoteService(ICurrencyRateService currencyRateService, ICryptoMarketService cryptoMarketService)
         {
             this.currencyRateService = currencyRateService;
+            this.cryptoMarketService = cryptoMarketService;
+        }
+
+        public async Task<IEnumerable<CryptoRate>> GetAllCryptoRates(string symbol, string[] quoteUnits)
+        {
+            if(string.IsNullOrEmpty(symbol))
+                throw new ArgumentNullException(nameof(symbol));
+
+            if(quoteUnits == null || quoteUnits.Length == 0)
+            {
+                return await cryptoMarketService.GetCryptoRate(symbol);
+            }
+
+            var allCryptoRates = new List<CryptoRate>();
+            var tasks = new List<Task<IEnumerable<CryptoRate>>>();
+
+            foreach (var quoteUnit in quoteUnits)
+            {
+                tasks.Add(cryptoMarketService.GetCryptoRate(symbol, quoteUnit));
+            }
+
+            var results = await Task.WhenAll(tasks);
+
+            foreach (var cryptoRates in results)
+            {
+                allCryptoRates.AddRange(cryptoRates);
+            }
+
+            return allCryptoRates;
         }
 
         public async Task<IEnumerable<ExchangeRate>> GetAllCurrenciesRate(string[] currencies)
@@ -27,59 +58,11 @@ namespace CryptoQuote.Domain.Services
             if (!currencyRate.CurrenciesRate.Keys.All(x => currencies.Contains(x)))
                 throw new Exception("Some currencies are not in result of CurrencyRateService");
 
-            var baseCurrency = currencyRate.BaseCurrency;
+            var exchangeRateGenerator = new ExchangeRateCalculator();
 
-            var exchangeRatesPerBaseCurrency = currencyRate.GetExchangeRates();
-
-            var numberOfCurrencies = exchangeRatesPerBaseCurrency.Count();
-
-            var currenciesPair = AllCurrenciesPair(currencies);
-            foreach (var pair in currenciesPair)
-            {
-                var rateIsUpdated = TryToUpdateRateIfPairContainsBaseCurrency(pair, baseCurrency, exchangeRatesPerBaseCurrency);
-                if (!rateIsUpdated)
-                {
-                    var basePairRate = exchangeRatesPerBaseCurrency.Single(x => x.QuoteCurrency == pair.BaseCurrency).GetReverseRate();
-                    var quotePairRate = exchangeRatesPerBaseCurrency.Single(x => x.QuoteCurrency == pair.QuoteCurrency).Rate;
-
-                    pair.Rate = Math.Round(basePairRate * quotePairRate, 2);
-                }
-            }
+            var currenciesPair = exchangeRateGenerator.CalculateAllRatesPerBaseCurrencyRates(currencyRate, currencies);
 
             return currenciesPair;
-        }
-
-        private bool TryToUpdateRateIfPairContainsBaseCurrency(ExchangeRate pair,
-            string baseCurrency,
-            IEnumerable<ExchangeRate> exchangeRatesPerBaseCurrency)
-        {
-            if (pair.BaseCurrency == baseCurrency)
-            {
-                pair.Rate = exchangeRatesPerBaseCurrency.Single(x => x.QuoteCurrency == pair.QuoteCurrency).Rate;
-            }
-            else if (pair.QuoteCurrency == baseCurrency)
-            {
-                var foundRate = exchangeRatesPerBaseCurrency.Single(x => x.QuoteCurrency == pair.BaseCurrency);
-                pair.Rate = foundRate.GetReverseRate();
-            }
-
-            return pair.Rate >= 0;
-        }
-
-        private IEnumerable<ExchangeRate> AllCurrenciesPair(string[] currencies)
-        {
-            var pair = new List<ExchangeRate>();
-            for (int i = 0; i < currencies.Length; i++)
-            {
-                for (int j = 0; j < currencies.Length; j++)
-                {
-                    if (i == j)
-                        continue;
-
-                    pair.Add(new ExchangeRate(currencies[i], currencies[j]));
-                }
-            }
-            return pair;
         }
     }
 }

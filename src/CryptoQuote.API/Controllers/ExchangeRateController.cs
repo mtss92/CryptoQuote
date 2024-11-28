@@ -7,21 +7,21 @@ namespace CryptoQuote.API.Controllers
 {
     [ApiController]
     [Route("[controller]")]
-    public class CryptoQuoteController : ControllerBase
+    public class ExchangeRateController : ControllerBase
     {
         private readonly ICryptoQuoteService cryptoQuoteService;
         private readonly ApiSettings settings;
 
-        public CryptoQuoteController(ICryptoQuoteService cryptoQuoteService, ApiSettings settings)
+        public ExchangeRateController(ICryptoQuoteService cryptoQuoteService, ApiSettings settings)
         {
             this.cryptoQuoteService = cryptoQuoteService;
             this.settings = settings;
         }
 
         [HttpGet]
-        public async Task<IEnumerable<CryptoRate>> Get(string symbol)
+        public async Task<IEnumerable<ExchangeRate>> Get()
         {
-            var rates = await cryptoQuoteService.GetAllCryptoRates(symbol, settings.Currencies);
+            var rates = await cryptoQuoteService.GetAllCurrenciesRate(settings.Currencies);
             return rates;
         }
     }

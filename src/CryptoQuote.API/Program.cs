@@ -19,6 +19,9 @@ config.GetSection("ApiSettings").Bind(apiSettings);
 var exchangeRatesApiSettings = new ExchangeRatesApiSettings();
 config.GetSection("ExchangeRatesApi").Bind(exchangeRatesApiSettings);
 
+var coinMarketCapApiSettings = new CoinMarketCapApiSettings();
+config.GetSection("CoinMarketCapApi").Bind(coinMarketCapApiSettings);
+
 // Add services to the container.
 
 builder.Services.AddControllers();
@@ -28,8 +31,10 @@ builder.Services.AddSwaggerGen();
 
 builder.Services.AddSingleton<ApiSettings>(apiSettings);
 builder.Services.AddSingleton<ExchangeRatesApiSettings>(exchangeRatesApiSettings);
+builder.Services.AddSingleton<CoinMarketCapApiSettings>(coinMarketCapApiSettings);
 
 builder.Services.AddScoped<ICryptoQuoteService, CryptoQuoteService>();
+builder.Services.AddScoped<ICryptoMarketService, CoinMarketCapApiService>();
 builder.Services.AddScoped<ICurrencyRateService, ExchangeRatesApiService>();
 builder.Services.AddScoped<IHttpService, HttpClientService>();
 builder.Services.AddHttpClient();

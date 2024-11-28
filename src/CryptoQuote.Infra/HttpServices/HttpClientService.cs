@@ -11,6 +11,8 @@ namespace CryptoQuote.Infra.HttpServices
     {
         private readonly HttpClient httpClient;
 
+        public Dictionary<string, string> Headers { get; set; } = null!;
+
         public HttpClientService(HttpClient httpClient)
         {
             this.httpClient = httpClient;
@@ -22,6 +24,16 @@ namespace CryptoQuote.Infra.HttpServices
             {
                 if (string.IsNullOrEmpty(path))
                     throw new ArgumentNullException(nameof(path));
+
+                httpClient.DefaultRequestHeaders.Clear();
+
+                if (Headers != null)
+                {
+                    foreach (var item in Headers)
+                    {
+                        httpClient.DefaultRequestHeaders.Add(item.Key, item.Value);
+                    }
+                }
 
                 using var response = await httpClient.GetAsync(path);
                 response.EnsureSuccessStatusCode();
