@@ -15,7 +15,16 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CryptoQuote.Infra", "src\Cr
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CryptoQuote.Infra.Test", "test\CryptoQuote.Infra.Test\CryptoQuote.Infra.Test.csproj", "{CB988A01-451E-47FD-957A-D7A0EE134331}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CryptoQuote.API", "src\CryptoQuote.API\CryptoQuote.API.csproj", "{DA1090A5-4336-4061-AE1D-718F02502B00}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CryptoQuote.API", "src\CryptoQuote.API\CryptoQuote.API.csproj", "{DA1090A5-4336-4061-AE1D-718F02502B00}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{BCA55692-4FA2-442E-8B21-663FB262FA31}"
+	ProjectSection(SolutionItems) = preProject
+		.dockerignore = .dockerignore
+		.env = .env
+		.gitignore = .gitignore
+		docker-compose.yml = docker-compose.yml
+		Dockerfile = Dockerfile
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

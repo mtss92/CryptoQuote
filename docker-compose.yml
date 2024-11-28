@@ -1,0 +1,13 @@
+version: '2.15'
+
+services:
+  webapi:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "7080:80"
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Production
+      - ExchangeRatesApi__Token=${ExchangeRatesApi__Token}
+      - CoinMarketCapApi__Token=${CoinMarketCapApi__Token}
