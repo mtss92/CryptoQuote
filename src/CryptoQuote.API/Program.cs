@@ -1,3 +1,4 @@
+using CryptoQuote.API.Middlewares;
 using CryptoQuote.API.Models;
 using CryptoQuote.Domain.Contracts;
 using CryptoQuote.Domain.Services;
@@ -76,9 +77,12 @@ app.UseAuthorization();
 
 app.UseSerilogRequestLogging();
 
+app.UseMiddleware<ErrorHandlerMiddleware>();
+
 app.MapControllers();
 
 app.UseCors("AllowAnyOrigin");
+
 
 app.Run();
 
