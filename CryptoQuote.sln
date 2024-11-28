@@ -13,6 +13,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CryptoQuote.Domain.Test", "
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CryptoQuote.Infra", "src\CryptoQuote.Infra\CryptoQuote.Infra.csproj", "{FD80EB30-F30B-4889-937D-917DB5509921}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CryptoQuote.Infra.Test", "test\CryptoQuote.Infra.Test\CryptoQuote.Infra.Test.csproj", "{CB988A01-451E-47FD-957A-D7A0EE134331}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -31,6 +33,10 @@ Global
 		{FD80EB30-F30B-4889-937D-917DB5509921}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{FD80EB30-F30B-4889-937D-917DB5509921}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{FD80EB30-F30B-4889-937D-917DB5509921}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CB988A01-451E-47FD-957A-D7A0EE134331}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CB988A01-451E-47FD-957A-D7A0EE134331}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CB988A01-451E-47FD-957A-D7A0EE134331}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CB988A01-451E-47FD-957A-D7A0EE134331}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -39,6 +45,7 @@ Global
 		{DF2E28DD-BEDC-4B7E-99D0-C18B6B5939A2} = {D762E3A2-BCB9-4379-8CEC-E9E7EBF1AC3C}
 		{15759EDC-C8C0-47F8-875A-CC424D7E394F} = {BBD1B1A6-A430-439C-88BA-FC50BF59BBF4}
 		{FD80EB30-F30B-4889-937D-917DB5509921} = {D762E3A2-BCB9-4379-8CEC-E9E7EBF1AC3C}
+		{CB988A01-451E-47FD-957A-D7A0EE134331} = {BBD1B1A6-A430-439C-88BA-FC50BF59BBF4}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {4A7499E2-BDC9-4514-9008-1F5329326A0B}
