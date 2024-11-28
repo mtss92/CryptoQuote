@@ -11,7 +11,7 @@ namespace CryptoQuote.Domain.Test
     {
         [TestMethod]
         [DynamicData(nameof(CountTestData), DynamicDataSourceType.Method)]
-        public async Task GetAllCurrenciesRate_CountTest(string[] validCurrencies, Func<Task<CurrencyRateResponse>> resultOfMokService, int resultCount)
+        public async Task GetAllCurrenciesRate_CountTest(string[] validCurrencies, Func<Task<CurrencyRateResponse>> resultOfMokService)
         {
             var currencyRateService = new Mock<ICurrencyRateService>();
             currencyRateService.Setup(x => x.GetLatestRates(validCurrencies)).Returns(resultOfMokService);
@@ -49,7 +49,7 @@ namespace CryptoQuote.Domain.Test
             Func<Task<CurrencyRateResponse>> resultOfMokService, string baseCurrency, string quoteCurrency, decimal rate)
         {
             var currencyRateService = new Mock<ICurrencyRateService>();
-            currencyRateService.Setup(x => x.GetLatestRates(validCurrencies)).Returns(ResultForUSD_EUR);
+            currencyRateService.Setup(x => x.GetLatestRates(validCurrencies)).Returns(resultOfMokService);
 
 
             var cryptoQuoteService = new CryptoQuoteService(currencyRateService.Object);
