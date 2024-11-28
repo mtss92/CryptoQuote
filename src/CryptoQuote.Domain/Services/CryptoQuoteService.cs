@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace CryptoQuote.Domain.Services
 {
-    public class CryptoQuoteService
+    public class CryptoQuoteService : ICryptoQuoteService
     {
         private readonly ICurrencyRateService currencyRateService;
 
@@ -20,7 +20,7 @@ namespace CryptoQuote.Domain.Services
 
         public async Task<IEnumerable<ExchangeRate>> GetAllCurrenciesRate(string[] currencies)
         {
-            if(currencies == null || currencies.Length == 0)
+            if (currencies == null || currencies.Length == 0)
                 return Enumerable.Empty<ExchangeRate>();
 
             var currencyRate = await currencyRateService.GetLatestRates(currencies);
@@ -49,22 +49,22 @@ namespace CryptoQuote.Domain.Services
             return currenciesPair;
         }
 
-        private bool TryToUpdateRateIfPairContainsBaseCurrency(ExchangeRate pair, 
-            string baseCurrency, 
+        private bool TryToUpdateRateIfPairContainsBaseCurrency(ExchangeRate pair,
+            string baseCurrency,
             IEnumerable<ExchangeRate> exchangeRatesPerBaseCurrency)
         {
-            if(pair.BaseCurrency == baseCurrency)
+            if (pair.BaseCurrency == baseCurrency)
             {
                 pair.Rate = exchangeRatesPerBaseCurrency.Single(x => x.QuoteCurrency == pair.QuoteCurrency).Rate;
             }
-            else if(pair.QuoteCurrency == baseCurrency)
+            else if (pair.QuoteCurrency == baseCurrency)
             {
                 var foundRate = exchangeRatesPerBaseCurrency.Single(x => x.QuoteCurrency == pair.BaseCurrency);
                 pair.Rate = foundRate.GetReverseRate();
             }
 
             return pair.Rate > 0;
-        }        
+        }
 
         private IEnumerable<ExchangeRate> AllCurrenciesPair(string[] currencies)
         {
