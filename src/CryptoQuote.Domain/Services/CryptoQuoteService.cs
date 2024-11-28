@@ -60,7 +60,7 @@ namespace CryptoQuote.Domain.Services
 
             var exchangeRateGenerator = new ExchangeRateCalculator();
 
-            var currenciesPair = exchangeRateGenerator.CalculateAllRatesPerBaseCurrencyRates(currencyRate, currencies);
+            var currenciesPair = exchangeRateGenerator.CalculateAllRatesPerRootCurrencyRates(currencyRate, currencies);
 
             return currenciesPair;
         }

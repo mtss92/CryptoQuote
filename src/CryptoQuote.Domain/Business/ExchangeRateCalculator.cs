@@ -9,45 +9,33 @@ namespace CryptoQuote.Domain.Business
 {
     internal class ExchangeRateCalculator
     {
-        public IEnumerable<ExchangeRate> CalculateAllRatesPerBaseCurrencyRates(CurrencyRateResponse currencyRate, string[] currencies)
+        public IEnumerable<ExchangeRate> CalculateAllRatesPerRootCurrencyRates(CurrencyRateResponse rootCurrencyRate, string[] currencies)
         {
-            var baseCurrency = currencyRate.BaseCurrency;
+            var rootCurrency = rootCurrencyRate.BaseCurrency;
+            var exchangeRatesPerRootCurrency = rootCurrencyRate.GetExchangeRates();
 
-            var exchangeRatesPerBaseCurrency = currencyRate.GetExchangeRates();
-
-            var numberOfCurrencies = exchangeRatesPerBaseCurrency.Count();
-
-            var emptyExchangeRates = ExchangeRate.GenerateForCurrencies(currencies);
-            foreach (var emptyExchangeRate in emptyExchangeRates)
+            var unQuotedCurrencyPairs = ExchangeRate.GenerateUnquotedCurrencyPairs(currencies);
+            foreach (var unQuotedCurrencyPair in unQuotedCurrencyPairs)
             {
-                var rateIsUpdated = TryToUpdateRateIfPairContainsBaseCurrency(emptyExchangeRate, baseCurrency, exchangeRatesPerBaseCurrency);
-                if (!rateIsUpdated)
+                if (unQuotedCurrencyPair.BaseCurrency == rootCurrency)
                 {
-                    var basePairRate = exchangeRatesPerBaseCurrency.Single(x => x.QuoteCurrency == emptyExchangeRate.BaseCurrency).GetReverseRate();
-                    var quotePairRate = exchangeRatesPerBaseCurrency.Single(x => x.QuoteCurrency == emptyExchangeRate.QuoteCurrency).Rate;
+                    unQuotedCurrencyPair.Rate = exchangeRatesPerRootCurrency.Single(x => x.QuoteCurrency == unQuotedCurrencyPair.QuoteCurrency).Rate;
+                }
+                else if (unQuotedCurrencyPair.QuoteCurrency == rootCurrency)
+                {
+                    var foundQuotedExchangeRate = exchangeRatesPerRootCurrency.Single(x => x.QuoteCurrency == unQuotedCurrencyPair.BaseCurrency);
+                    unQuotedCurrencyPair.Rate = foundQuotedExchangeRate.GetReverseRate();
+                }
+                else
+                {
+                    var rateOfBaseCurrencyPerRootCurrency = exchangeRatesPerRootCurrency.Single(x => x.QuoteCurrency == unQuotedCurrencyPair.BaseCurrency);
+                    var rateOfQuoteCurrencyPerRootCurrency = exchangeRatesPerRootCurrency.Single(x => x.QuoteCurrency == unQuotedCurrencyPair.QuoteCurrency).Rate;
 
-                    emptyExchangeRate.Rate = Math.Round(basePairRate * quotePairRate, 2);
+                    unQuotedCurrencyPair.Rate = Math.Round(rateOfBaseCurrencyPerRootCurrency.GetReverseRate() * rateOfQuoteCurrencyPerRootCurrency, 2);
                 }
             }
 
-            return emptyExchangeRates;
-        }
-
-        private bool TryToUpdateRateIfPairContainsBaseCurrency(ExchangeRate emptyExchangeRate,
-            string baseCurrency,
-            IEnumerable<ExchangeRate> exchangeRatesPerBaseCurrency)
-        {
-            if (emptyExchangeRate.BaseCurrency == baseCurrency)
-            {
-                emptyExchangeRate.Rate = exchangeRatesPerBaseCurrency.Single(x => x.QuoteCurrency == emptyExchangeRate.QuoteCurrency).Rate;
-            }
-            else if (emptyExchangeRate.QuoteCurrency == baseCurrency)
-            {
-                var foundRate = exchangeRatesPerBaseCurrency.Single(x => x.QuoteCurrency == emptyExchangeRate.BaseCurrency);
-                emptyExchangeRate.Rate = foundRate.GetReverseRate();
-            }
-
-            return emptyExchangeRate.Rate >= 0;
+            return unQuotedCurrencyPairs;
         }
     }
 }

@@ -17,7 +17,7 @@ namespace CryptoQuote.Domain.Test
             currencyRateService.Setup(x => x.GetLatestRates(validCurrencies)).Returns(resultOfMokService);
 
 
-            var cryptoQuoteService = new CryptoQuoteService(currencyRateService.Object);
+            var cryptoQuoteService = new CryptoQuoteService(currencyRateService.Object, null!);
 
             var result = await cryptoQuoteService.GetAllCurrenciesRate(validCurrencies);
 
@@ -33,7 +33,7 @@ namespace CryptoQuote.Domain.Test
             var currencyRateService = new Mock<ICurrencyRateService>();
             currencyRateService.Setup(x => x.GetLatestRates(validCurrencies)).Returns(resultOfMokService);
 
-            var cryptoQuoteService = new CryptoQuoteService(currencyRateService.Object);
+            var cryptoQuoteService = new CryptoQuoteService(currencyRateService.Object, null!);
 
             var result = await cryptoQuoteService.GetAllCurrenciesRate(validCurrencies);
 
@@ -52,7 +52,7 @@ namespace CryptoQuote.Domain.Test
             currencyRateService.Setup(x => x.GetLatestRates(validCurrencies)).Returns(resultOfMokService);
 
 
-            var cryptoQuoteService = new CryptoQuoteService(currencyRateService.Object);
+            var cryptoQuoteService = new CryptoQuoteService(currencyRateService.Object, null!);
 
             var result = await cryptoQuoteService.GetAllCurrenciesRate(validCurrencies);
 

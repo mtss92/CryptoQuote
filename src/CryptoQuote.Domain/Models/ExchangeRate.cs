@@ -22,7 +22,7 @@
             return Math.Round(1 / Rate, 2);
         }
 
-        public static IEnumerable<ExchangeRate> GenerateForCurrencies(string[] currencies)
+        public static IEnumerable<ExchangeRate> GenerateUnquotedCurrencyPairs(string[] currencies)
         {
             var pair = new List<ExchangeRate>();
             for (int i = 0; i < currencies.Length; i++)
