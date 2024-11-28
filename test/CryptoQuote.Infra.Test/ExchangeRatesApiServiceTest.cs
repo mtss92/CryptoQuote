@@ -19,7 +19,6 @@ namespace CryptoQuote.Infra.Test
 
         [TestMethod]
         [DynamicData(nameof(GetLatestRatesTestData), DynamicDataSourceType.Method)]
-        [DataRow(new string[] { "USD", "EUR", "BRL", "GBP", "AUD" })]
         public async Task GetLatestRates_ResultShouldNotBeNullTest(IEnumerable<string> currencies)
         {
             var settings = config.GetExchangeRatesApiSettings();
@@ -33,7 +32,6 @@ namespace CryptoQuote.Infra.Test
 
         [TestMethod]
         [DynamicData(nameof(GetLatestRatesTestData), DynamicDataSourceType.Method)]
-        [DataRow(new string[] { "USD", "EUR", "BRL", "GBP", "AUD" })]
         public async Task GetLatestRates_CurrenciesRateCountTest(IEnumerable<string> currencies)
         {
             var settings = config.GetExchangeRatesApiSettings();
@@ -47,7 +45,6 @@ namespace CryptoQuote.Infra.Test
 
         [TestMethod]
         [DynamicData(nameof(GetLatestRatesTestData), DynamicDataSourceType.Method)]
-        [DataRow(new string[] { "USD", "EUR", "BRL", "GBP", "AUD" })]
         public async Task GetLatestRates_BaseCurrencyRateShouldBeOneTest(IEnumerable<string> currencies)
         {
             var settings = config.GetExchangeRatesApiSettings();
