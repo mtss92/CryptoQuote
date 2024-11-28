@@ -39,6 +39,17 @@ builder.Services.AddScoped<ICurrencyRateService, ExchangeRatesApiService>();
 builder.Services.AddScoped<IHttpService, HttpClientService>();
 builder.Services.AddHttpClient();
 
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowAnyOrigin",
+
+        builder =>
+        {
+            builder.AllowAnyOrigin()
+                   .WithMethods("GET");
+        });
+});
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -51,6 +62,8 @@ if (app.Environment.IsDevelopment())
 app.UseAuthorization();
 
 app.MapControllers();
+
+app.UseCors("AllowAnyOrigin");
 
 app.Run();
 
