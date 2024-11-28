@@ -63,7 +63,7 @@ namespace CryptoQuote.Domain.Services
                 pair.Rate = foundRate.GetReverseRate();
             }
 
-            return pair.Rate > 0;
+            return pair.Rate >= 0;
         }
 
         private IEnumerable<ExchangeRate> AllCurrenciesPair(string[] currencies)

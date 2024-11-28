@@ -4,7 +4,7 @@
     {
         public string BaseCurrency { get; set; }
         public string QuoteCurrency { get; set; }
-        public decimal Rate { get; set; }
+        public decimal Rate { get; set; } = -1.0m;
 
         public ExchangeRate(string baseCurrency, string quoteCurrency)
         {
