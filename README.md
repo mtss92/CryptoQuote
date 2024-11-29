@@ -57,14 +57,15 @@ This software provides three API endpoints for currency and cryptocurrency excha
 Retrieve the current exchange rates for `USD` , `EUR` , `BRL` , `GBP` , `AUD`
 
 - **HTTP Method**: `GET`
-- **Endpoint**:  
-  ```plaintext
+- **Example Request**:  
+  ```bash
   http://localhost:7080/ExchangeRate
   ```
 
 ### **Get Cryptocurrency Quote**
 Retrieve the exchange rate of a cryptocurrency against `USD` , `EUR` , `BRL` , `GBP` , `AUD`
 
+- **HTTP Method**: `GET`
 - **Query Parameters**: `symbol`
   - `symbol` *required*: The `symbol` of the cryptocurrency (e.g., `BTC`, `ETH`).
 - **Example Request**:
@@ -75,7 +76,7 @@ Retrieve the exchange rate of a cryptocurrency against `USD` , `EUR` , `BRL` , `
 ### **Get Cryptocurrency Quote with Currency Rates**
 Retrieve the exchange rate of a cryptocurrency against `USD` , `EUR` , `BRL` , `GBP` , `AUD` and retrieve the current exchange rates for currencies
 
-
+- **HTTP Method**: `GET`
 - **Query Parameters**: `symbol`
   - `symbol` *required*: The `symbol` of the cryptocurrency (e.g., `BTC`, `ETH`).
 - **Example Request**:
