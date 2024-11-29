@@ -24,5 +24,12 @@ namespace CryptoQuote.API.Controllers
             var rates = await cryptoQuoteService.GetAllCryptoRates(symbol, settings.Currencies);
             return rates;
         }
+
+        [HttpGet("details")]
+        public async Task<CryptoRateExchangeDetails> GetWithExchangeDetails(string symbol)
+        {
+            var rates = await cryptoQuoteService.GetAllCryptoRatesWithDetails(symbol, settings.Currencies);
+            return rates;
+        }
     }
 }

@@ -1,5 +1,5 @@
 # CryptoQuote
-CryptoQuote is a web app that shows the latest cryptocurrency prices in different currencies like USD, EUR, BRL, GBP, and AUD.
+CryptoQuote is a web api that shows the latest cryptocurrency prices in different currencies like USD, EUR, BRL, GBP, and AUD.
 
 
 ## Prerequisites
@@ -50,7 +50,7 @@ Follow these steps to run the application:
 
 ## How to Use the API
 
-This software provides two API endpoints for currency and cryptocurrency exchange rate information. Below are the details:
+This software provides three API endpoints for currency and cryptocurrency exchange rate information. Below are the details:
 
 ### **Get Exchange Rates**
 
@@ -70,6 +70,17 @@ Retrieve the exchange rate of a cryptocurrency against `USD` , `EUR` , `BRL` , `
 - **Example Request**:
     ```bash
     http://localhost:7080/CryptoQuote?symbol=BTC
+    ```
+
+### **Get Cryptocurrency Quote with Currency Rates**
+Retrieve the exchange rate of a cryptocurrency against `USD` , `EUR` , `BRL` , `GBP` , `AUD` and retrieve the current exchange rates for currencies
+
+
+- **Query Parameters**: `symbol`
+  - `symbol` *required*: The `symbol` of the cryptocurrency (e.g., `BTC`, `ETH`).
+- **Example Request**:
+    ```bash
+    http://localhost:7080/CryptoQuote/details?symbol=BTC
     ```
 
 

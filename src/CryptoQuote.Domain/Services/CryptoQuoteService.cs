@@ -21,6 +21,17 @@ namespace CryptoQuote.Domain.Services
             this.cryptoMarketService = cryptoMarketService;
         }
 
+        public async Task<CryptoRateExchangeDetails> GetAllCryptoRatesWithDetails(string symbol, string[] quoteUnits)
+        {
+            var result = new CryptoRateExchangeDetails
+            {
+                CryptoRates = await GetAllCryptoRates(symbol, quoteUnits),
+                ExchangeRate = await GetCurrenciesRate(quoteUnits)
+            };
+
+            return result;
+        }
+
         public async Task<IEnumerable<CryptoRate>> GetAllCryptoRates(string symbol, string[] quoteUnits)
         {
             if(string.IsNullOrEmpty(symbol))
@@ -47,6 +58,18 @@ namespace CryptoQuote.Domain.Services
             }
 
             return allCryptoRates;
+        }
+
+        public async Task<IEnumerable<ExchangeRate>> GetCurrenciesRate(string[] currencies)
+        {
+            if (currencies == null || currencies.Length == 0)
+                return null!;
+
+            var currencyRate = await currencyRateService.GetLatestRates(currencies);
+            if (!currencyRate.CurrenciesRate.Keys.All(x => currencies.Contains(x)))
+                throw new Exception("Some currencies are not in result of CurrencyRateService");
+
+            return currencyRate.GetExchangeRates();
         }
 
         public async Task<IEnumerable<ExchangeRate>> GetAllCurrenciesRate(string[] currencies)
