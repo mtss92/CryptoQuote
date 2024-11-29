@@ -39,7 +39,8 @@ namespace CryptoQuote.Infra.CurrencyServices
 
         private IMapper CreateMaps()
         {
-            return new MapperConfiguration(cfg => {
+            return new MapperConfiguration(cfg =>
+            {
                 cfg.CreateMap<ExchangeRatesApiResponse, CurrencyRateResponse>()
                 .ForMember(cr => cr.Date, er => er.MapFrom(p => DateOnly.Parse(p.Date)))
                 .ForMember(cr => cr.BaseCurrency, er => er.MapFrom(p => p.Base))

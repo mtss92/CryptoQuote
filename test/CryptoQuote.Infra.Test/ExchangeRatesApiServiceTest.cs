@@ -1,6 +1,5 @@
 using CryptoQuote.Infra.CurrencyServices;
 using CryptoQuote.Infra.HttpServices;
-using CryptoQuote.Infra.Test;
 using Microsoft.Extensions.Configuration;
 using Shouldly;
 
@@ -53,14 +52,14 @@ namespace CryptoQuote.Infra.Test
 
             var response = await apiService.GetLatestRates(currencies);
 
-            if(response.CurrenciesRate.TryGetValue(response.BaseCurrency, out decimal rate))
+            if (response.CurrenciesRate.TryGetValue(response.BaseCurrency, out decimal rate))
                 rate.ShouldBe(1);
             rate.ShouldBe(0);
         }
 
         private static IEnumerable<object[]> GetLatestRatesTestData()
         {
-            yield return new object[] { new string[] { "USD"} };
+            yield return new object[] { new string[] { "USD" } };
             yield return new object[] { new string[] { "USD", "EUR" } };
             yield return new object[] { new string[] { "USD", "EUR", "BRL" } };
             yield return new object[] { new string[] { "USD", "EUR", "BRL", "GBP" } };

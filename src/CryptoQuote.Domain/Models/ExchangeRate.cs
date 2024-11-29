@@ -17,7 +17,7 @@
 
         public decimal GetReverseRate()
         {
-            if(Rate == 0) return 0;
+            if (Rate == 0) return 0;
 
             return Math.Round(1 / Rate, 2);
         }

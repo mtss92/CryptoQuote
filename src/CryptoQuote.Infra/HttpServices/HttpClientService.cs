@@ -1,11 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net.Http;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace CryptoQuote.Infra.HttpServices
+﻿namespace CryptoQuote.Infra.HttpServices
 {
     public class HttpClientService : IHttpService
     {
@@ -40,7 +33,7 @@ namespace CryptoQuote.Infra.HttpServices
                 var content = await response.Content.ReadAsStringAsync();
                 var result = Newtonsoft.Json.JsonConvert.DeserializeObject<T>(content);
 
-                if(result == null)
+                if (result == null)
                     throw new Exception($"Result of api could not deserialize to {typeof(T).FullName}");
 
                 return result;
@@ -50,7 +43,7 @@ namespace CryptoQuote.Infra.HttpServices
                 // TODO: Log Exceptions
                 throw;
             }
-            
+
         }
     }
 }

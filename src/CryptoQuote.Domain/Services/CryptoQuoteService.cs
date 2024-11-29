@@ -1,12 +1,6 @@
 ﻿using CryptoQuote.Domain.Business;
 using CryptoQuote.Domain.Contracts;
 using CryptoQuote.Domain.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Runtime.ConstrainedExecution;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace CryptoQuote.Domain.Services
 {
@@ -34,10 +28,10 @@ namespace CryptoQuote.Domain.Services
 
         public async Task<IEnumerable<CryptoRate>> GetAllCryptoRates(string symbol, string[] quoteUnits)
         {
-            if(string.IsNullOrEmpty(symbol))
+            if (string.IsNullOrEmpty(symbol))
                 throw new ArgumentNullException(nameof(symbol));
 
-            if(quoteUnits == null || quoteUnits.Length == 0)
+            if (quoteUnits == null || quoteUnits.Length == 0)
             {
                 return await cryptoMarketService.GetCryptoRate(symbol);
             }

@@ -1,6 +1,5 @@
 using CryptoQuote.Infra.CurrencyServices;
 using CryptoQuote.Infra.HttpServices;
-using CryptoQuote.Infra.Test;
 using Microsoft.Extensions.Configuration;
 using Shouldly;
 

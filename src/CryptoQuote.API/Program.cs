@@ -5,7 +5,6 @@ using CryptoQuote.Domain.Services;
 using CryptoQuote.Infra.CurrencyServices;
 using CryptoQuote.Infra.HttpServices;
 using CryptoQuote.Infra.Models;
-using Microsoft.Extensions.DependencyInjection.Extensions;
 using Serilog;
 
 var builder = WebApplication.CreateBuilder(args);

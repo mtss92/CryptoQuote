@@ -1,14 +1,8 @@
-﻿using AutoMapper;
-using CryptoQuote.Domain.Contracts;
+﻿using CryptoQuote.Domain.Contracts;
 using CryptoQuote.Domain.Models;
 using CryptoQuote.Infra.HttpServices;
 using CryptoQuote.Infra.Models;
 using Newtonsoft.Json.Linq;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace CryptoQuote.Infra.CurrencyServices
 {

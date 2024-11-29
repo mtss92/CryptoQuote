@@ -18,7 +18,7 @@ namespace CryptoQuote.Infra.Test
         public static ExchangeRatesApiSettings GetExchangeRatesApiSettings(this IConfigurationRoot config)
         {
             var settingsRoot = new ExchangeRatesApiSettings();
-            
+
             config.GetSection("ExchangeRatesApi").Bind(settingsRoot);
 
             return settingsRoot;

@@ -149,9 +149,9 @@ namespace CryptoQuote.Domain.Test
 
         private static IEnumerable<object[]> GetAllCryptoRatesWithDetailsTestDataOnBTC()
         {
-            yield return new object[] 
+            yield return new object[]
             {
-                "BTC", 
+                "BTC",
                 new Dictionary<string, Func<Task<IEnumerable<CryptoRate>>>>
                 {
                     { "USD",  Func_ResultForBTC_USD},
